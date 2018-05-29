@@ -1,0 +1,23 @@
+<style>
+    body{
+    background-color: #f3f3f4 !important;
+    }
+</style>
+    <div class="middle-box text-center loginscreen">
+    <div>
+        <h3>Bem vindo ao FlixIMDB</h3>
+        <p>O lugar certo para saber se a série é boa ;)
+        </p>
+        <div class="form-group">
+            <input type="email" autocomplete="off" class="form-control" placeholder="Email" ng-model="data.email" required="" maxlength="250">
+        </div>
+        <div class="form-group">
+            <input type="password" autocomplete="off" class="form-control" placeholder="Senha" ng-model="data.password" required=""  maxlength="250">
+        </div>
+        <button type="button" ng-click="login()" ng-disabled="isProcessing" class="btn btn-primary block full-width m-b">Acessar</button>    
+        
+        <p class="text-muted text-center"><small>Novo por aqui?</small></p>
+        <a class="btn btn-sm btn-white btn-block" href="#/signup">Criar conta</a>
+        <p class="m-t"> <small>FlixIMDB &copy; 2018</small> </p>
+    </div>
+</div>
