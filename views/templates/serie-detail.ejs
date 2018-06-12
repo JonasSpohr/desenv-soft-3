@@ -37,23 +37,23 @@
 </style>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Todas as Séries</h2>
+        <h2>Detalhes da Série</h2>
         <ol class="breadcrumb">
             <li class="active">
-                <strong>Todas as Séries</strong>
+                <strong></strong>
             </li>
         </ol>
     </div>
 </div>
-<div class="wrapper wrapper-content">
+<div class="wrapper wrapper-content" style="padding-bottom: 0px;">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Séries</h5>
+                    <h5>Informaçõs Básicas</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="box-serie" ng-repeat="serie in series">
+                    <div class="box-serie">
                         <div class="row">
                             <div class="col-lg-3">
                                 <img src="{{serie.detalhes.imagemCapa}}" class="click-serie" style="width: 100%;min-height: 350px;border-radius: 4px;" />
@@ -89,7 +89,43 @@
                                 </div>
                             </div>
                         </div>
-                        <hr>                       
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12" style="text-align: center">
+        <button class="btn btn-lg btn-primary" style="margin: 10px;">Deixe seu comentário...</button>
+    </div>
+</div>
+<div class="wrapper wrapper-content" style="padding-top: 0px;">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Comentários</h5>
+                    <div class="ibox-tools">
+                        <span class="label label-default-light pull-right">2 comentários</span>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div>
+                        <div class="feed-activity-list">
+
+                            <div class="feed-element">
+                                <a href="profile.html" class="pull-left">
+                                    <img alt="image" class="img-circle" src="http://smubusiness.com/imagesOuter/pic/Nophoto.jpg">
+                                </a>
+                                <div class="media-body ">
+                                    <strong>Monica Smith</strong> posted a new blog.
+                                    <br>
+                                    <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

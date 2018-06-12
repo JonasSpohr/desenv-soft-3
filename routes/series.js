@@ -18,7 +18,7 @@ router.get('/all', async function (req, res, next) {
     for (let i = 0; i < series.length; i++) {
       let atores = await Ator.find({ serie: series[i]._id });
       objReturn.push(
-       { atores: atores, detalhes: series[i] }
+        { atores: atores, detalhes: series[i] }
       );
     }
 
@@ -43,6 +43,15 @@ router.post('/addactor', function (req, res, next) {
 });
 
 router.get('/filter', function (req, res, next) {
+});
+
+router.get('/detail/:id', async function (req, res, next) {
+  let serie = await Serie.findById(req.params.id);
+
+  let atores = await Ator.find({ serie: req.params.id }); 
+
+
+  res.send(JSON.stringify({ result: { detalhes: serie, atores : atores } }));
 });
 
 module.exports = router;
