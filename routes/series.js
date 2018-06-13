@@ -4,6 +4,7 @@ var router = express.Router();
 
 var Serie = require('../models/Serie.js');
 var Ator = require('../models/Ator.js');
+var Avaliacao = require('../models/Avaliacao.js');
 
 router.get('/all', async function (req, res, next) {
   let seriesReturn = [];
@@ -42,16 +43,49 @@ router.post('/addactor', function (req, res, next) {
   });
 });
 
+router.post('/writecomment', function (req, res, next) {
+  let newAvaliacao = new Avaliacao(req.body);
+  newAvaliacao.save(function (err) {
+    if (err) return res.send(JSON.stringify({ error: err }));
+    res.send(JSON.stringify({ result: newAvaliacao }));
+  });
+});
+
 router.get('/filter', function (req, res, next) {
 });
 
 router.get('/detail/:id', async function (req, res, next) {
   let serie = await Serie.findById(req.params.id);
+  let atores = await Ator.find({ serie: req.params.id });
+  res.send(JSON.stringify({ result: { detalhes: serie, atores: atores } }));
+});
 
-  let atores = await Ator.find({ serie: req.params.id }); 
+router.get('/allcomments/:id', async function (req, res, next) {
+  let comentarios = await Avaliacao.find({ serie: req.params.id }).populate('usuario');
+  res.send(JSON.stringify({ result: comentarios }));
+});
 
+router.get('/media/:id', async function (req, res, next) {
+  let comentarios = await Avaliacao.find({ serie: req.params.id }).populate('usuario');
 
-  res.send(JSON.stringify({ result: { detalhes: serie, atores : atores } }));
+  let total = 0;
+  for (let i = 0; i < comentarios.length; i++) {
+    total += comentarios[i].nota;
+  }
+
+  if (total > 0)
+    total = total / comentarios.length;
+
+  if (total > 0) {
+    let serie = await Serie.findById(req.params.id);
+    serie.notaGeral = total.toFixed(1);
+    await serie.save(function (err) {
+      if (err) return res.send(JSON.stringify({ error: err }));
+      res.send(JSON.stringify({ result: total }));
+    });
+  }else{
+    res.send(JSON.stringify({ result: total }));
+  }  
 });
 
 module.exports = router;

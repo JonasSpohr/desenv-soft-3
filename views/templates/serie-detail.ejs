@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label class="note">{{serie.detalhes.notaGeral}}</label>
+                                        <label class="note">{{serie.media}}</label>
                                     </div>
                                 </div>
                                 <div class="row" style="padding-top: 20px;">
@@ -96,34 +96,86 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-show="hasCommented == false">
     <div class="col-lg-12" style="text-align: center">
-        <button class="btn btn-lg btn-primary" style="margin: 10px;">Deixe seu comentário...</button>
+        <button class="btn btn-lg btn-primary" style="margin: 10px;" ng-show="writingComment == false" ng-click="showComment()">Deixe seu comentário...</button>
     </div>
 </div>
 <div class="wrapper wrapper-content" style="padding-top: 0px;">
-    <div class="row">
+    <div class="row" ng-show="writingComment == true">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Comentários</h5>
-                    <div class="ibox-tools">
-                        <span class="label label-default-light pull-right">2 comentários</span>
-                    </div>
+                    <h5>Deixe seu comentário</h5>
                 </div>
                 <div class="ibox-content">
-                    <div>
-                        <div class="feed-activity-list">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Comentário</label>
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Escreva aqui seu comentário..." rows="6" ng-model="comentario.descricao"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Nota</label>
+                                <select class="form-control" ng-model="comentario.nota">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-md btn-primary" ng-click="saveComment()">Salvar</button>
+                            <button class="btn btn-md btn-default" ng-click="cancelComment()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                            <div class="feed-element">
-                                <a href="profile.html" class="pull-left">
-                                    <img alt="image" class="img-circle" src="http://smubusiness.com/imagesOuter/pic/Nophoto.jpg">
-                                </a>
-                                <div class="media-body ">
-                                    <strong>Monica Smith</strong> posted a new blog.
-                                    <br>
-                                    <small class="text-muted">Today 5:60 pm - 12.06.2014</small>
+    <div class="wrapper wrapper-content" style="padding-top: 0px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Comentários</h5>
+                        <div class="ibox-tools" ng-show="hasComments == true">
+                            <span class="label label-default-light pull-right">{{comentarios.length}} comentário(s)</span>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div>
+                            <div class="row" ng-show="hasComments == false">
+                                <div class="col-lg-12" style="text-align: center">
+                                    <h3>Sem comentários :(</h3>
                                 </div>
+                            </div>
+                            <div class="feed-activity-list" ng-show="hasComments == true">
+
+                                <div ng-repeat="c in comentarios" class="feed-element">
+                                    <a href="profile.html" class="pull-left">
+                                        <img alt="image" class="img-circle" src="http://smubusiness.com/imagesOuter/pic/Nophoto.jpg">
+                                    </a>
+                                    <div class="media-body ">
+                                        <strong>{{c.usuario.name}} - Avaliação: {{c.nota}}</strong>
+                                        <br> {{c.descricao}}
+                                        <br>
+                                        <small class="text-muted">{{c.dataAvaliacao | date : 'dd/MM/yyyy HH:mm:ss'}}</small>
+                                    </div>
                             </div>
                         </div>
                     </div>
