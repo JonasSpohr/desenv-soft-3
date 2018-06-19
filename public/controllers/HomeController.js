@@ -1,16 +1,19 @@
 _myApp
     .factory('HomeFactory', ['$resource', function ($resource) {
         return $resource('/series/:id', null, {
-            'all': { method: 'GET', url: '/series/all' }
+            'all': { method: 'GET', url: '/series/all' },
+            'filter': { method: 'GET', url: '/series/filter/:titulo' }
         });
     }])
     .controller('HomeCtrl', ['$scope', '$routeParams', '$location', '$localStorage', 'HomeFactory', '$route',
         function ($scope, $routeParams, $location, $localStorage, HomeFactory, $route) {
             $scope.series = [];
+            $scope.filter = {};
             $scope.isProcessing = true;
 
             angular.element(document).ready(function () {
 
+                $scope.isProcessing = true;
                 var Series = HomeFactory.all({},
                     function () {
                         if (Series.error) {
@@ -18,30 +21,44 @@ _myApp
                         } else {
                             $scope.series = Series.result;
                         }
+                        $scope.isProcessing = false;
                     });
             });
 
-            $scope.vote = function () {
-                if (!$scope.model.placeSelected || $scope.model.placeSelected == '') {
-                    alert('Please select a place to vote!');
+            $scope.filter = function () {
+                if (!$scope.filter.titulo || $scope.filter.titulo == '') {
+                    alert('Por favor informe o titulo da série!');
                     return;
                 }
 
-                if (confirm('Do yuo confirm your vote?')) {
-                    $scope.isProcessing = true;
-                    var Vote = VoteFactory.vote({
-                        placeId: $scope.model.placeSelected,
-                        userId: $localStorage.user.id
+                $scope.isProcessing = true;
+                var Series = HomeFactory.filter({
+                    titulo : $scope.filter.titulo
                     },
-                        function () {
-                            if (Vote.error) {
-                                alert('Unable to vote :(.');
-                            } else {
-                                alert('Your vote has been saved.');
-                                $scope.canVote = false;
-                                $scope.isProcessing = false;
-                            }
-                        });
-                }
+                    function () {
+                        if (Series.error) {
+                            alert('Unable to get series from the server :(');
+                        } else {
+                            $scope.series = Series.result;
+                        }
+
+                        $scope.isProcessing = false;
+                    });
+            }
+
+            $scope.clearFilter = function () {
+                
+                $scope.isProcessing = true;
+                $scope.filter.titulo = '';
+                
+                var Series = HomeFactory.all({},
+                    function () {
+                        if (Series.error) {
+                            alert('Unable to get series from the server :(');
+                        } else {
+                            $scope.series = Series.result;
+                        }
+                        $scope.isProcessing = false;
+                    });
             }
         }]);
